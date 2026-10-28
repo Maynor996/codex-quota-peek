@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 额度用完干着急？这个小页面帮你瞄一眼「大概啥时候恢复」</title>
+<meta name="description" content=" 建议封面：用 icon.png 裁成方图，或取监控页上半截「最近重置 + 粗估」；文内配图见下方标注。路径均在 ./codexinstall-csdn-img/。 写代码写着写着，正顺手——Codex 突然提示额度不够了。 是不是很熟悉？ 还剩多少，自己账号里一般能看见；可「下一次什么时候恢复」，官方界面往往说不清。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --bg: #f7f5f0;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --muted: #5c5c5c;
+    --accent: #1a73e8;
+    --border: #e6e2d8;
+    --code-bg: #f0eee8;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 17px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 4rem;
+  }
+  article {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem 1.75rem 2.5rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+  }
+  h1 {
+    font-family: "Noto Serif SC", "Noto Sans SC", serif;
+    font-size: clamp(1.55rem, 4vw, 2rem);
+    line-height: 1.4;
+    margin: 0 0 1.25rem;
+    font-weight: 700;
+  }
+  h2 {
+    font-family: "Noto Serif SC", "Noto Sans SC", serif;
+    font-size: 1.35rem;
+    margin: 2.25rem 0 0.9rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+    font-weight: 700;
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  h3 { font-size: 1.1rem; margin: 1.5rem 0 0.6rem; }
+  p { margin: 0.9rem 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.35rem; margin: 0.8rem 0; }
+  li { margin: 0.35rem 0; }
+  strong { font-weight: 700; }
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.1rem auto 0.35rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fafafa;
+  }
+  .caption {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-top: 0.2rem;
+    margin-bottom: 1.2rem;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.9em;
+    background: var(--code-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+  pre code { background: none; padding: 0; }
+  blockquote {
+    margin: 1rem 0;
+    padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent);
+    color: var(--muted);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.55rem 0.7rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #f3f1eb; }
+  .meta {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-bottom: 1.5rem;
+  }
+  .pages-banner {
+    margin: 0 0 1.25rem;
+    padding: 0.75rem 1rem;
+    background: #eef5ff;
+    border: 1px solid #d0e2ff;
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+  footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <article>
+      <div class="pages-banner">在线阅读（GitHub Pages）：<a href="https://maynor996.github.io/codex-quota-peek/">https://maynor996.github.io/codex-quota-peek/</a></div>
+      <h1>Codex 额度用完干着急？这个小页面帮你瞄一眼「大概啥时候恢复」</h1>
+      <div class="meta">原文：<a href="https://blog.csdn.net/xianyu120/article/details/169069637">https://blog.csdn.net/xianyu120/article/details/169069637</a></div>
+      <blockquote>
+<p>建议封面：用 <code>icon.png</code> 裁成方图，或取监控页上半截「最近重置 + 粗估」；文内配图见下方标注。路径均在 <code>./codexinstall-csdn-img/</code>。</p>
+</blockquote>
+<p>写代码写着写着，正顺手——Codex 突然提示额度不够了。</p>
+<p>是不是很熟悉？</p>
+<p>还剩多少，自己账号里一般能看见；可「下一次什么时候恢复」，官方界面往往说不清。于是干着急、刷群、到处问「今天重置了没」，成了很多人的日常小焦虑。明明灵感还在，进度却卡在「等额度」上，确实挺磨人。</p>
+<p>今天就介绍一个很轻的小工具：帮你对照社区里公开的重置信号，粗粗估一下下次大概落在哪儿。不用会技术，打开网页就能看。当个便签用就行，别当闹钟。</p>
+<hr />
+<h2>先说清楚：额度、重置，到底是啥</h2>
+<p>用大白话讲两句：</p>
+<ul>
+<li><strong>额度</strong>：你这段时间还能让 Codex 帮你写多少、改多少。用完了，它就暂时「歇一会儿」。</li>
+<li><strong>重置</strong>：官方侧把一批用户的额度重新补上，大家又能接着用。</li>
+</ul>
+<p>听起来简单，实际难受的地方在于：重置时间不是墙上日历那样写死的，也很少提前给你发一张「准时到账」的通知。账号里能看见「还剩多少」，却很难说准「下一波全员大概哪天」。</p>
+<p>所以社区里很多人养成了一个习惯——去看一位常发相关动态的公开账号 <strong>@thsottiaux（大家也叫 Tibo）</strong>。他偶尔会发「Day N / Reset」「已经同步好了 / It's done」这类帖，等于给大家一个可对照的信号灯。</p>
+<p>但推文刷起来散，时区还绕（常见国外时间，国内习惯看北京时间），有时先宣布、过一会儿才确认，人工盯很容易漏，也容易被无关帖淹没。对纯小白来说，光找原文、对时区，就已经够折腾了。</p>
+<hr />
+<h2>我们做了个对照页，能看啥</h2>
+<p>于是在 <strong>Codex 中文网</strong>（<a href="https://codexinstall.asia">codexinstall.asia</a>）旁边，挂了一页专门做这件事的小面板：</p>
+<p>👉 <a href="https://codexinstall.asia/zh/codex-reset/">Codex 额度重置监控</a></p>
+<p><img alt="监控页示意" src="imgs/01.png" /><br />
+<em>建议配图①：监控页全貌——最近重置、粗估窗口、十月日历与公开帖流（文件：01-reset-page.png）</em></p>
+<p>打开后大致能看到四块，都是给人眼扫一眼的：</p>
+<ol>
+<li><strong>最近一次重置</strong>：距今多久、北京时间戳，方便对照「是不是刚补过」；</li>
+<li><strong>粗估下次窗口</strong>：用历史几次确认间隔算个均值，给出一个「大概这段时间」的参考（不是精确到分钟的闹钟）；</li>
+<li><strong>日历</strong>：把确认过的日期标出来，一眼看出最近疏密；</li>
+<li><strong>当日公开帖摘要</strong>：方便跳回原文核对，心里更踏实一点。</li>
+</ol>
+<p>数据大约每 <strong>4 小时</strong>自动同步一次公开推文。写这篇时（2026-10-25），最新一例是 <strong>Day 20</strong> 已确认——刚重置不久，页面上「未来 24 小时再重置」的粗估概率也会压得很低，这挺符合直觉：刚补过，短期内再来一轮的机会通常不大。</p>
+<p>如果你经常逛主站，首页右侧还有两个常驻小胶囊：<strong>「重置监控」</strong> 和 <strong>「充值」</strong>，随时点一下也能进，不用记长链接。</p>
+<p><img alt="首页右侧胶囊" src="imgs/02.png" /><br />
+<em>建议配图②：主站右侧浮动「重置监控 / 充值」（文件：02-homepage-rail.png）；封面也可裁自 icon.png</em></p>
+<p>说白了，这页干的事很窄：把「社区公开信号」整理成一眼能看懂的对照，而不是再做一个「官方状态中心」的样子。你要的是心安，不是第二套复杂后台。</p>
+<hr />
+<h2>怎么打开、怎么用就行</h2>
+<p>用法真的很简单，三步够了：</p>
+<ol>
+<li>打开上面的监控链接，或从主站点「重置监控」；</li>
+<li>先看「最近一次」——刚补过就别干等下一轮，先去写该写的；</li>
+<li>再瞟一眼粗估窗口和日历，心里有个谱就好。</li>
+</ol>
+<p>额度还没恢复、又不急着赶工时，也可以把页面收藏一下，隔一阵再瞄——总比一遍遍刷推特时间线轻松。群里有人问「今天重置了吗」，你也可以先看一眼这个页，再决定要不要继续等。</p>
+<p><strong>重要一句免责，请务必看：</strong><br />
+这页是盯梢社区公开推文整理出来的对照工具，<strong>不是 OpenAI 官方接口</strong>，也不代表官方承诺。数字会变，预测只是启发式粗估；额度是否到账、还剩多少，仍以你自己账号里的显示为准。别因为页面上的「大概窗口」就安排死任务节点，稳妥一点更好。</p>
+<hr />
+<h2>收个尾</h2>
+<p>额度用完很烦，但不必一直刷推特、也不必把「粗估窗口」当成准点闹钟。把这个小页面当「瞄一眼」的便签就行——想确认社区有没有新信号时，打开看看；该写代码就写代码，该歇就歇。</p>
+<p>链接再放一次，方便收藏：<br />
+https://codexinstall.asia/zh/codex-reset/</p>
+<p>主站安装与新手指南：<br />
+https://codexinstall.asia</p>
+<p>用得顺手就好。少干着急，多写几行。🙂</p>
+      <footer>镜像自 CSDN @xianyu120 · 内容以原文为准</footer>
+    </article>
+  </div>
+</body>
+</html>
